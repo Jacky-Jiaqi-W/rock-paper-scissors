@@ -9,48 +9,56 @@ function getComputerChoice() {
     }
 }
 
-function getHumanChoice() {
-    return prompt('What\'s your choice of "rock", "paper", "scissors"?');
-}
-
 let humanScore = 0;
 let computerScore = 0;
 
-function announceWinner(humanScore, computerScore) {
+function announceWinner() {
+    let message = '';
     if (humanScore > computerScore) {
-        console.log("Final winner is you!");
-    } else if (humanScore < computerScore) {
-        console.log("Final winner is computer!");
+        message = "Final winner is you!";
     } else {
-        console.log("No final winner!");
+        message = "Final winner is computer!";
     }
+    displayMessage(message + " Click any button to restart a game!");
 }
 
 function playRound(humanChoice, computerChoice) {
     humanChoice = humanChoice.toLowerCase();
+    let roundResult = '';
+
     if ((humanChoice === "rock" && computerChoice === "scissors") 
     || (humanChoice === "paper" && computerChoice === "rock")
     || (humanChoice === "scissors" && computerChoice === "paper")) {
-        console.log(`You win! ${humanChoice} beats ${computerChoice}`);
         humanScore++;
+        roundResult = `You win! ${humanChoice} beats ${computerChoice}`;
     } else if ((humanChoice === "rock" && computerChoice === "paper") 
     || (humanChoice === "paper" && computerChoice === "scissors")
     || (humanChoice === "scissors" && computerChoice === "rock")) {
-        console.log(`You lose! ${computerChoice} beats ${humanChoice}`);
         computerScore++;
+        roundResult = `You lose! ${computerChoice} beats ${humanChoice}`;
     } else {
-        console.log(`Tie`);
+        roundResult = `Tie`;
     }
-}
-
-function playGame() {
-    for (let i = 0; i < 5; i++) {
-        playRound(getHumanChoice(), getComputerChoice());
-    }
-    announceWinner(humanScore, computerScore);
+    let totalScore = `Score(You vs Computer): ${humanScore} vs ${computerScore}`;
+    displayMessage(`${roundResult}. ${totalScore}`);
+    endGame();
 }
 
 const body = document.querySelector("body");
 body.addEventListener("click", e => {
     playRound(e.target.textContent, getComputerChoice());
 });
+
+const result = document.querySelector("#result");
+
+function displayMessage(message) {
+    result.textContent = message;
+}
+
+function endGame() {
+    if (humanScore === 5 || computerScore === 5) {
+        announceWinner();
+        humanScore = 0;
+        computerScore = 0;
+    }
+}
