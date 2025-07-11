@@ -1,2 +1,2 @@
 # rock-paper-scissors
-This is a simple JavaScript console game.
+This is a simple JavaScript game.
